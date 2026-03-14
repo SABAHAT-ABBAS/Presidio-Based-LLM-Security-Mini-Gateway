@@ -2,7 +2,7 @@
 
 A standalone, modular security middleware designed to intercept and sanitize user prompts before they are processed by Large Language Models (LLMs). This gateway mitigates risks associated with adversarial prompt injections and PII (Personally Identifiable Information) leakage.
 
-
+![Gateway Screenshot](gateway%20image.png)
 ## ⚙️ Technical Infrastructure
 
 The system implements a dual-stage sequential processing pipeline to ensure both security and data privacy:
