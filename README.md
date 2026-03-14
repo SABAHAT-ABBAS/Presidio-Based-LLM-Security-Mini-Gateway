@@ -1,43 +1,45 @@
-# Presidio-Based-LLM-Security-Mini-Gateway
-This repository contains a Standalone Security Gateway. The gateway acts as a "firewall" between a user and an AI model, analyzing incoming prompts in real-time. It utilizes Presidio Analyzer for PII detection and a custom Regex-based Scoring Engine to detect adversarial prompt injections.
+# 🛡️ LLM Security Gateway Pipeline
 
----
+A standalone, modular security middleware designed to intercept and sanitize user prompts before they are processed by Large Language Models (LLMs). This gateway mitigates risks associated with adversarial prompt injections and PII (Personally Identifiable Information) leakage.
 
-## 📖 Overview
 
-The **Security Gateway** acts as a protective layer between the user and the AI. It analyzes every incoming prompt using two main engines:
-1. **Injection Scorer:** Detects adversarial patterns (Jailbreaks, System Prompt extractions).
-2. **Privacy Scrubber:** Identifies and redacts PII (Personally Identifiable Information) using Microsoft Presidio and spaCy.
+## ⚙️ Technical Infrastructure
 
----
+The system implements a dual-stage sequential processing pipeline to ensure both security and data privacy:
 
-## ✨ Key Features
+### 1. Heuristic Injection Detection Engine
+* **Mechanism:** Regex-based heuristic pattern matching.
+* **Scoring Logic:** Weighted analysis of adversarial keywords (e.g., `bypass`, `ignore`, `root access`, `system prompt`).
+* **Decision Policy:** Implements a binary threshold trigger. If the cumulative risk score exceeds **0.35**, the input is flagged as a high-risk injection and blocked immediately.
 
-* **Custom Bahria Logic:**
-    * **Enrollment ID Validator:** Custom regex logic that only masks IDs following the `01-XXXXXXXXX` (11-digit) format.
-    * **Organizational Protection:** Static deny-list ensures "Bahria University" is always masked.
-* **Lilac & Light Grey UI:** A clean, professional Tkinter interface with color-coded results.
-* **Detail Viewer:** Double-click any row in the analysis table to see a full comparison of raw vs. filtered text.
-* **Performance Tracking:** Real-time latency measurement in milliseconds (ms) for every scan.
+### 2. NER-Based Privacy Scrubbing Engine
+* **Core Engine:** Microsoft Presidio (leveraging spaCy `en_core_web_lg`).
+* **Named Entity Recognition (NER):** * **Custom Logic-Based Validators:** Specialized recognizers for structured numerical data (e.g., specific 11-digit identification formats).
+    * **Predefined Entity Detection:** Identification of standard PII such as Phone Numbers, API Keys, and Locations.
+    * **Static Deny-lists:** String-matching for organizational-specific sensitive terms.
+* **Anonymization:** Performs tokenization and replacement of sensitive data with standardized `<ENTITY_TYPE>` placeholders.
 
----
 
-## 🛠️ Technical Stack
+## 🛠️ Technology Stack
 
 * **Language:** Python 3.x
-* **PII Engine:** Microsoft Presidio
-* **NLP Model:** spaCy `en_core_web_lg`
-* **GUI Framework:** Tkinter
+* **Anonymization Framework:** [Microsoft Presidio](https://microsoft.github.io/presidio/)
+* **NLP Engine:** [spaCy](https://spacy.io/)
+* **GUI Library:** Tkinter (Custom event-driven interface)
+* **Pattern Matching:** Python `re` module
+
+## 📊 Processing Logic & Evaluation
+
+| Pipeline Stage | Logic Type | Threshold / Condition | Resultant Action |
+| :--- | :--- | :--- | :--- |
+| **Stage 1: Security** | Heuristic Scoring | Score $\ge 0.35$ | **BLOCK** (Dropped) |
+| **Stage 2: Privacy** | NER Detection | Confidence $> 0.40$ | **MASK** (Sanitized) |
+| **Stage 3: Validation** | No Match | Default | **ALLOW** (Passed) |
 
 
 
----
-
-## 🚀 Installation & Setup
-
-To run this project locally, follow these steps:
+## 🚀 Deployment & Installation
 
 ### 1. Install Dependencies
-Open your terminal or Spyder console and run:
 ```bash
 pip install presidio-analyzer presidio-anonymizer spacy
