@@ -1,0 +1,4 @@
+presidio-analyzer
+presidio-anonymizer
+spacy
+# Note: en_core_web_lg must be downloaded via python -m spacy download
