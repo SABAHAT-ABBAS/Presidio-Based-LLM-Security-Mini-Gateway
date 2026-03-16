@@ -43,3 +43,4 @@ The system implements a dual-stage sequential processing pipeline to ensure both
 ### 1. Install Dependencies
 ```bash
 pip install presidio-analyzer presidio-anonymizer spacy
+python -m spacy download en_core_web_lg
