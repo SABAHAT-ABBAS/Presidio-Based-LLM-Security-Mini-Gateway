@@ -1,4 +1,4 @@
-presidio-analyzer
-presidio-anonymizer
-spacy
-# Note: en_core_web_lg must be downloaded via python -m spacy download
+presidio-analyzer==2.2.355
+presidio-anonymizer==2.2.355
+spacy==3.7.4
+tkinter
